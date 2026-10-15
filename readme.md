@@ -1,4 +1,4 @@
-# Data Science Practicals 1-10 (FINAL)
+# Data Science Practicals
 
 Fixed and finalized. Each practical is one complete, runnable block (for Google Colab), named as in the original question.
 
