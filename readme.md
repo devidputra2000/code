@@ -142,7 +142,7 @@ output_file = "students_horus.xml.json"
 horus_data = xml_to_horus(xml_file, output_file)
 
 # STEP 5: Display HORUS output
-print("\n========== HORUS OUTPUT ==========\n")
+print("\n========== HORUS OUTPUT ==========")
 print(json.dumps(horus_data, indent=4))
 
 # STEP 6: Download HORUS file
@@ -159,7 +159,7 @@ from google.colab import files
 
 # STEP 1: CREATE SAMPLE JSON DATA
 data = [
-    {"id": 101, "Name": "Suraj",    "Department": "IT", "Marks": 85},
+    {"id": 101, "Name": "Rahul",    "Department": "IT", "Marks": 85},
     {"id": 102, "Name": "Neeraj",   "Department": "IT", "Marks": 86},
     {"id": 103, "Name": "Devil",    "Department": "IT", "Marks": 90},
     {"id": 104, "Name": "Abhishek", "Department": "IT", "Marks": 80},
@@ -555,25 +555,25 @@ files.download(output_file)
 ```python
 import pandas as pd
 
-data_suraj = {
+data = {
     "Name": ['John', 'Alice', None, 'John'],
     "Age": [23, 24, None, 26],
     "Salary": [5000, 6000, None, 7000]
 }
 
-df_suraj = pd.DataFrame(data_suraj)
+df = pd.DataFrame(data)
 
 print("Original Data")
-print(df_suraj)
+print(df)
 
-df_suraj = df_suraj.drop_duplicates()
+df = df.drop_duplicates()
 
-df_suraj["Age"] = df_suraj["Age"].fillna(df_suraj["Age"].mean())
-df_suraj["Salary"] = df_suraj["Salary"].fillna(df_suraj["Salary"].mean())
-df_suraj["Name"] = df_suraj["Name"].fillna("Unknown")
+df["Age"] = df["Age"].fillna(df["Age"].mean())
+df["Salary"] = df["Salary"].fillna(df["Salary"].mean())
+df["Name"] = df["Name"].fillna("Unknown")
 
 print("Cleaned Data")
-print(df_suraj)
+print(df)
 ```
 
 ---
@@ -884,11 +884,11 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 
-df_suraj = pd.read_csv("/content/titanic.csv")
-print(df_suraj.head())
+df_input = pd.read_csv("/content/titanic.csv")
+print(df_input.head())
 
 # Remove duplicates
-df = df_suraj.drop_duplicates().copy()
+df = df_input.drop_duplicates().copy()
 
 # Handle missing values
 df["Age"] = df["Age"].fillna(df["Age"].mean())
@@ -935,86 +935,86 @@ plt.show()
 
 ## Practical 8: ORGANIZATION OF DATA
 
-> **Note:** Requires /content/Social_Network_Ads.csv (upload it to Colab first). Fixed: Gender is kept as text and encoded once into Gender_Code (the old code overwrote it with 1/0 and then tried to encode again); deprecated inplace fills removed; age 18 is no longer dropped from the age groups; duplicate rename step merged; 'Outliners' spelled 'Outliers'.
+> **Note:** Requires /content/Social_Network_Ads.csv (upload it to Colab first). Fixed: Gender is kept as text and encoded once into Gender_Code (the old code overwrote it with 1/0 and then tried to encode it again in later cells).
 
 ```python
 import pandas as pd
 import numpy as np
 
-df_suraj = pd.read_csv("/content/Social_Network_Ads.csv")
-print('Original shape: \n', df_suraj.shape)
-print(df_suraj.head())
+df_input = pd.read_csv("/content/Social_Network_Ads.csv")
+print('Original shape: \n', df_input.shape)
+print(df_input.head())
 
 # Data inspection
 print("\n Information \n")
-print(df_suraj.info())
+print(df_input.info())
 
 print("\n Missing values \n")
-print(df_suraj.isna().sum())
+print(df_input.isna().sum())
 
 print("\n Duplicate values \n")
-print(df_suraj.duplicated().sum())
+print(df_input.duplicated().sum())
 
 # Remove the duplicate records
-df_suraj.drop_duplicates(inplace=True)
-print('Shape after removing duplicates: \n', df_suraj.shape)
+df_input.drop_duplicates(inplace=True)
+print('Shape after removing duplicates: \n', df_input.shape)
 
 # Handle missing values
-for col in df_suraj.columns:
-    if df_suraj[col].isna().sum() > 0:
-        if pd.api.types.is_numeric_dtype(df_suraj[col]):
-            df_suraj[col] = df_suraj[col].fillna(df_suraj[col].mean())
+for col in df_input.columns:
+    if df_input[col].isna().sum() > 0:
+        if pd.api.types.is_numeric_dtype(df_input[col]):
+            df_input[col] = df_input[col].fillna(df_input[col].mean())
         else:
-            df_suraj[col] = df_suraj[col].fillna(df_suraj[col].mode()[0])
+            df_input[col] = df_input[col].fillna(df_input[col].mode()[0])
 
 print("\n Missing values \n")
-print(df_suraj.isna().sum())
+print(df_input.isna().sum())
 
 # Standardize Gender values
-df_suraj['Gender'] = df_suraj['Gender'].str.strip().str.title()
-print(df_suraj.head())
+df_input['Gender'] = df_input['Gender'].str.strip().str.title()
+print(df_input.head())
 
 # Rename columns
-df_suraj.rename(columns={'EstimatedSalary': 'Salary', 'Purchased': 'Purchase_Status'}, inplace=True)
+df_input.rename(columns={'EstimatedSalary': 'Salary', 'Purchased': 'Purchase_Status'}, inplace=True)
 
 # Remove impossible values
-df_suraj = df_suraj[
-    (df_suraj['Age'] >= 18) &
-    (df_suraj['Age'] <= 65) &
-    (df_suraj['Salary'] > 0)
+df_input = df_input[
+    (df_input['Age'] >= 18) &
+    (df_input['Age'] <= 65) &
+    (df_input['Salary'] > 0)
 ].copy()
 
-print("Current columns:", df_suraj.columns.tolist())
-print(df_suraj.head())
+print("Current columns:", df_input.columns.tolist())
+print(df_input.head())
 
 # Salary bands using quantiles
-df_suraj['Salary_Band'] = pd.qcut(df_suraj['Salary'], q=4, labels=["Low", "Medium", "High", "Very High"])
-print(df_suraj.head())
+df_input['Salary_Band'] = pd.qcut(df_input['Salary'], q=4, labels=["Low", "Medium", "High", "Very High"])
+print(df_input.head())
 
 # Age groups
 bins = [18, 30, 45, 65]
 labels = ['Young', 'Adult', 'Senior']
-df_suraj['Age_Group'] = pd.cut(df_suraj['Age'], bins=bins, labels=labels, include_lowest=True)
-print(df_suraj.head())
+df_input['Age_Group'] = pd.cut(df_input['Age'], bins=bins, labels=labels, include_lowest=True)
+print(df_input.head())
 
 # Encode Gender
-df_suraj['Gender_Code'] = df_suraj['Gender'].map({'Male': 1, 'Female': 0})
-print(df_suraj.head())
+df_input['Gender_Code'] = df_input['Gender'].map({'Male': 1, 'Female': 0})
+print(df_input.head())
 
 # Normalize Salary
-df_suraj['Salary_Normalized'] = (df_suraj['Salary'] - df_suraj['Salary'].min()) / (df_suraj['Salary'].max() - df_suraj['Salary'].min())
-print(df_suraj.head())
+df_input['Salary_Normalized'] = (df_input['Salary'] - df_input['Salary'].min()) / (df_input['Salary'].max() - df_input['Salary'].min())
+print(df_input.head())
 
 # Salary Rank
-df_suraj['Salary_Rank'] = df_suraj['Salary'].rank(ascending=False, method="dense")
-print(df_suraj.head())
+df_input['Salary_Rank'] = df_input['Salary'].rank(ascending=False, method="dense")
+print(df_input.head())
 
 # Multi-level Sorting
-df_suraj.sort_values(by=['Age_Group', 'Salary', 'Purchase_Status'], ascending=[True, False, False], inplace=True)
-print(df_suraj.head())
+df_input.sort_values(by=['Age_Group', 'Salary', 'Purchase_Status'], ascending=[True, False, False], inplace=True)
+print(df_input.head())
 
 # Group Statistics
-summary = df_suraj.groupby(['Gender', 'Age_Group'], observed=False).agg(
+summary = df_input.groupby(['Gender', 'Age_Group'], observed=False).agg(
     Total_Customers=("User ID", "count"),
     Average_Salary=("Salary", "mean"),
     Total_Salary=("Salary", "sum"),
@@ -1027,7 +1027,7 @@ print(summary)
 
 # Pivot Table
 pivot = pd.pivot_table(
-    df_suraj,
+    df_input,
     values='Salary',
     index='Age_Group',
     columns='Gender',
@@ -1039,15 +1039,15 @@ print("\n Pivot Table")
 print(pivot, "\n\n")
 
 # MultiIndex Dataset
-organized = df_suraj.set_index(["Gender", "Age_Group"])
+organized = df_input.set_index(["Gender", "Age_Group"])
 print("\n Organized Dataset \n")
 print(organized.head(), "\n\n")
 
 # Detect Outliers
-Q1 = df_suraj['Salary'].quantile(0.25)
-Q3 = df_suraj['Salary'].quantile(0.75)
+Q1 = df_input['Salary'].quantile(0.25)
+Q3 = df_input['Salary'].quantile(0.75)
 IQR = Q3 - Q1
-Outliers = df_suraj[(df_suraj['Salary'] < Q1 - 1.5 * IQR) | (df_suraj['Salary'] > Q3 + 1.5 * IQR)]
+Outliers = df_input[(df_input['Salary'] < Q1 - 1.5 * IQR) | (df_input['Salary'] > Q3 + 1.5 * IQR)]
 print("\n Outliers \n")
 print(Outliers)
 
@@ -1063,7 +1063,7 @@ print("\n All files created successfully in /content/ \n")
 
 ## Practical 9: GENERATING DATA
 
-> **Note:** Fixed: n_ds = 1000 (was a syntax error); user_Id now holds real IDs 1001–2000 (was the same number in every row); salary is no longer clipped to 20,000–25,000; 'banglore' → 'Bangalore'; file path corrected to /content/.
+> **Note:** Fixed: n_ds = 1000 (was a syntax error); user_Id now holds real IDs 1001–2000 (was the same number in every row); salary is no longer clipped to 20,000–25,000; 'banglore' → 'Bangalore'.
 
 ```python
 !pip install Faker
@@ -1182,3 +1182,4 @@ print("\n Dataset Generated Successfully")
 print("File Name : Generated_Employee_Dataset.csv")
 print("File Location : /content/Generated_Employee_Dataset.csv")
 ```
+
