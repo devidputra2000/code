@@ -3,10 +3,6 @@
 Fixed and finalized. Each practical is one complete, runnable block (for Google Colab), named as in the original question.
 
 
-
-
----
-
 ## Practical 2A: TEXT DELIMITED CSV TO HORUS FORMAT
 
 ```python
